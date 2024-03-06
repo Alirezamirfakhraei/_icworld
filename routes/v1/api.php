@@ -8,6 +8,7 @@ Route::middleware(['throttle:30,1'])->prefix('v1')->group(function () {
     Route::controller(ContactUsController::class)->group(function () {
         Route::post('message/set', 'setMessage');
     });
+
 });
 
 

@@ -12,12 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contactUs', function (Blueprint $table) {
+        Schema::create('contact_us', function (Blueprint $table) {
             $table->id();
             $table->string('email' , 256);
-            $table->string('fullName' , 50);
-            $table->string('subject' , 256);
-            $table->longText('message');
+            $table->string('fullName' , 50)->nullable();
+            $table->string('subject' , 256)->nullable();
+            $table->longText('message')->nullable();
             $table->enum('status' , ContactUs::$status);
             $table->timestamps();
         });
