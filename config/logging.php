@@ -1,8 +1,10 @@
 <?php
 
+use Monolog\Handler\FilterHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
+use Monolog\Handler\TelegramBotHandler;
 use Monolog\Processor\PsrLogMessageProcessor;
 
 return [
@@ -17,9 +19,7 @@ return [
     | one of the channels defined in the "channels" configuration array.
     |
     */
-
     'default' => env('LOG_CHANNEL', 'stack'),
-
     /*
     |--------------------------------------------------------------------------
     | Deprecations Log Channel
@@ -30,12 +30,10 @@ return [
     | your application ready for upcoming major versions of dependencies.
     |
     */
-
     'deprecations' => [
         'channel' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
         'trace' => false,
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Log Channels
@@ -52,6 +50,27 @@ return [
     */
 
     'channels' => [
+        'error' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/logs.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true,
+        ],
+
+        'warning' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/logs_warning.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true,
+        ],
+
+        'debug' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/debug.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],
@@ -60,14 +79,14 @@ return [
 
         'single' => [
             'driver' => 'single',
-            'path' => storage_path('logs/laravel.log'),
+            'path' => storage_path('logs/log-notice.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'replace_placeholders' => true,
         ],
 
         'daily' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/laravel.log'),
+            'path' => storage_path('logs/daily/log-daily.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 14,
             'replace_placeholders' => true,
@@ -89,7 +108,7 @@ return [
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
-                'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
+                'connectionString' => 'tls://' . env('PAPERTRAIL_URL') . ':' . env('PAPERTRAIL_PORT'),
             ],
             'processors' => [PsrLogMessageProcessor::class],
         ],
@@ -111,21 +130,17 @@ return [
             'facility' => LOG_USER,
             'replace_placeholders' => true,
         ],
-
         'errorlog' => [
             'driver' => 'errorlog',
             'level' => env('LOG_LEVEL', 'debug'),
             'replace_placeholders' => true,
         ],
-
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
         ],
-
         'emergency' => [
-            'path' => storage_path('logs/laravel.log'),
+            'path' => storage_path('logs/log-emergency.log'),
         ],
     ],
-
 ];

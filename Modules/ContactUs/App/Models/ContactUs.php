@@ -16,7 +16,6 @@ class ContactUs extends Model
     public const COL_MESSAGE = 'message';
     public const COL_STATUS = 'status';
 
-
     public const REQ_USERID = 'userID';
     public const REQ_EMAIL = 'email';
     public const REQ_FULL_NAME = 'fullName';
@@ -31,5 +30,18 @@ class ContactUs extends Model
         self::COL_MESSAGE,
         self::COL_STATUS,
     ];
+
+    public const STATUS_READ = 'read';
+    public const  STATUS_UNREAD = 'unread';
+    public static array $status = [self::STATUS_READ, self::STATUS_UNREAD];
+
+    public static function boot(): void
+    {
+        parent::boot();
+        static::creating(function ($query) {
+            $query->status = self::STATUS_UNREAD;
+        });
+    }
+
 
 }

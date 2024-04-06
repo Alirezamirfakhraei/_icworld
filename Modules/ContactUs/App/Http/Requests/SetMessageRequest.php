@@ -13,11 +13,11 @@ class SetMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            ContactUs::COL_USERID => '',
-            ContactUs::COL_EMAIL => '',
-            ContactUs::COL_SUBJECT => '',
-            ContactUs::COL_MESSAGE => '',
-            ContactUs::COL_FULL_NAME => '',
+            ContactUs::COL_EMAIL => 'required|string|min:2|max:100|rex_email',
+            ContactUs::COL_MESSAGE => 'required|string|min:2|max:100|rex_text',
+            ContactUs::COL_SUBJECT => 'nullable|string|min:2|max:100|rex_text',
+            ContactUs::COL_FULL_NAME => 'nullable|string|min:2|max:100|rex_english_na',
         ];
     }
 }
+
