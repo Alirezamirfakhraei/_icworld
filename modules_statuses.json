@@ -1,4 +1,5 @@
 {
     "ContactUs": true,
-    "Products": true
+    "Products": true,
+    "Categories": true
 }

@@ -21,13 +21,14 @@ class RexServiceProvider extends ServiceProvider
         'rex_alpha' => 'Alpha',
         'rex_numberAlpha' => 'AlphaNumber',
         'rex_text' => 'Text',
+        'rex_version' => 'Version',
     ];
     public function boot(): void
     {
         foreach ($this->validatorsList as $mode => $method) {
             Validator::extend(
                 $mode,
-                rexValidations::class . "@validate{$method}",
+                RexValidations::class . "@validate{$method}",
                 ':attribute=:input'
             );
         }

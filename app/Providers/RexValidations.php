@@ -15,31 +15,19 @@ class RexValidations
     public function validateUserName($attribute, $value, $parameters): bool
     {
         $pattern = "/^[a-zA-Z0-9_]+$/u";
-        if (count($parameters) == 1) {
-            return preg_match($pattern, $value) || preg_match($parameters[1], $value);
-        } else {
-            return preg_match($pattern, $value);
-        }
+        return preg_match($pattern, $value);
     }
 
     public function validateTrackerID($attribute, $value, $parameters): bool
     {
         $pattern = "/^(STR)[0-9]{7,9}$/u";
-        if (count($parameters) == 1) {
-            return preg_match($pattern, $value) || preg_match($parameters[1], $value);
-        } else {
-            return preg_match($pattern, $value);
-        }
+        return preg_match($pattern, $value);
     }
 
     public function validatePassword($attribute, $value, $parameters): bool
     {
         $pattern = "/^[a-zA-Z0-9_@]+$/u";
-        if (count($parameters) == 1) {
-            return preg_match($pattern, $value) || preg_match($parameters[1], $value);
-        } else {
-            return preg_match($pattern, $value);
-        }
+        return preg_match($pattern, $value);
     }
 
     public function validateEmail($attribute, $value, $parameters): bool
@@ -65,47 +53,33 @@ class RexValidations
         $pattern = '/^[0-9]+(\.)[0-9]+$/';
         return preg_match($pattern, $value);
     }
-
-
-
     public function validateEnglishNumber($attribute, $value, $parameters): bool
     {
-        $pattern = "/^[0-9]+$/u";
-        if (count($parameters) == 1) {
-            return preg_match($pattern, $value) || preg_match($parameters[1], $value);
-        } else {
-            return preg_match($pattern, $value);
-        }
+        $pattern = "/^[0-9]+$/";
+        return preg_match($pattern, $value);
     }
 
     public function validateEnglishAlpha($attribute, $value, $parameters): bool
     {
-        $pattern = "/^[a-zA-Z\s]+$/u";
-        if (count($parameters) == 1) {
-            return preg_match($pattern, $value) || preg_match($parameters[1], $value);
-        } else {
-            return preg_match($pattern, $value);
-        }
+        $pattern = "/^[a-zA-Z\s]+$/";
+        return preg_match($pattern, $value);
     }
 
     public function validateEnglishAlphaNumber($attribute, $value, $parameters): bool
     {
-        $pattern = "/^[0-9a-zA-Z\s]+$/u";
-        if (count($parameters) == 1) {
-            return preg_match($pattern, $value) || preg_match($parameters[1], $value);
-        } else {
-            return preg_match($pattern, $value);
-        }
+        $pattern = "/^[0-9a-zA-Z\s]+$/";
+        return preg_match($pattern, $value);
     }
 
     public function validateText($attribute, $value, $parameters): bool
     {
-        $pattern = "/^[0-9a-zA-Z()\-_@\s\.]+$/u";
-        if (count($parameters) == 1) {
-            return preg_match($pattern, $value) || preg_match($parameters[1], $value);
-        } else {
-            return preg_match($pattern, $value);
-        }
+        $pattern = "/^[0-9a-zA-Z()\-_@\s\.]+$/";
+        return preg_match($pattern, $value);
     }
 
+    public function validateVersion($attribute, $value, $parameters): bool
+    {
+        $pattern = "/^[0-9]*(\.)?[0-9]+(\.)?[0-9]*$/";
+        return preg_match($pattern, $value);
+    }
 }
