@@ -13,17 +13,13 @@ Route::middleware(['throttle:30,1'])->prefix('v1')->group(function () {
 
     // ----------> Products
     Route::controller(ProductsController::class)->group(function () {
-        Route::post('products/get', 'getAllProducts');
+        Route::get('products/{id}', 'getAllProducts');
     });
-
-
 
     // ----------> Categories
     Route::controller(CategoriesController::class)->group(function () {
         Route::post('category', 'getAllCategories');
     });
-
-
 
 });
 

@@ -13,7 +13,18 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('');
+            $table->string('dk_part_number' , 150);
+            $table->string('mfr_part_number' , 150);
+            $table->string('ice_part_number' , 150);
+            $table->string('categoryID' , 10);
+            $table->string('categorySubID' , 10);
+            $table->string('categoryBranchID' , 10)->nullable();
+            $table->string('currency' , 5)->default('USD');
+            $table->string('description' , 256)->nullable();
+            $table->string('price' , 50);
+            $table->enum('status' , \Modules\Products\App\Models\Product::$statuses);
+            $table->string('image' , 256)->nullable();
+            $table->string('dataSheet' , 256)->nullable();
             $table->timestamps();
         });
     }

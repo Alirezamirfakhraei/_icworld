@@ -10,6 +10,7 @@ class CategoryBranch extends Model
     use HasFactory;
 
     protected $table = 'category_branch';
+    public const COL_LINK = 'link';
     public const COL_TITLE = 'title';
     public const COL_SUB_ID = 'subCatID';
     public const COL_URL = 'url';

@@ -9,6 +9,8 @@ use Modules\Categories\App\Models\Category;
 use Modules\Categories\App\Models\CategoryBranch;
 use Modules\Categories\App\Models\CategorySub;
 use Responses;
+use Illuminate\Support\Facades\Config;
+
 
 class CategoriesController extends Controller
 {
@@ -16,11 +18,16 @@ class CategoriesController extends Controller
     {
         $returnList = true;
         if (isset($request[Category::REQ_VERSION])) {
-            if ($request[Category::REQ_VERSION] == "1.1.0"){
+            if ($request[Category::REQ_VERSION] == "1.1.0") {
                 $returnList = false;
             }
         }
         if ($returnList) {
+            $categories =[
+                'version' => config('general.version'),
+                'categories' => []
+            ];
+
             $result = null;
             $category = Category::with('cat')->where(Category::COL_STATUS, Category::STATUS_ACTIVE)->get()->toArray();
             if ($category != null) {
@@ -57,7 +64,8 @@ class CategoriesController extends Controller
                         'sub' => $catArray
                     ];
                 }
-                return response()->json(['mode' => Responses::OK, 'data' => $result]);
+                $categories['categories'] = $result;
+                return response()->json(['mode' => Responses::OK, 'data' => $categories]);
             } else {
                 return response()->json(['mode' => Responses::CATEGORY_EMPTY, 'data' => null]);
             }

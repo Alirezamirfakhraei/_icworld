@@ -13,6 +13,7 @@ class CategorySub extends Model
     protected $table = 'category_sub';
     use HasFactory;
     public const COL_TITLE = 'title';
+    public const COL_LINK = 'link';
     public const COL_CAT_ID = 'catID';
     public const COL_URL = 'url';
     public const COL_COUNT = 'count';
