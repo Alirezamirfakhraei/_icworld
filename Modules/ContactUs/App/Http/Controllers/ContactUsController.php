@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Logs;
-use Modules\ContactUs\App\Http\Requests\SetMessageRequest;
+use Modules\ContactUs\App\Http\Requests\GetProductsRequest;
 use Modules\ContactUs\App\Models\ContactUs;
 use Responses;
 
@@ -16,7 +16,7 @@ use Responses;
 class ContactUsController extends Controller
 {
 
-    public function setMessage(SetMessageRequest $request):JsonResponse
+    public function setMessage(GetProductsRequest $request):JsonResponse
     {
         $data = $request->all();
         try {

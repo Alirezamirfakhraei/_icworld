@@ -82,4 +82,10 @@ class RexValidations
         $pattern = "/^[0-9]*(\.)?[0-9]+(\.)?[0-9]*$/";
         return preg_match($pattern, $value);
     }
+
+    public function validateIdProducts($attribute, $value, $parameters): bool
+    {
+        $pattern = '/^[a-zA-Z0-9_-]+$/';
+        return preg_match($pattern, $value);
+    }
 }

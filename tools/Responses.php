@@ -6,6 +6,7 @@ class Responses{
     public const CATEGORY_EMPTY = 'emptyCategory';
     public const PRODUCTS_EMPTY = 'emptyProducts';
     public const CATEGORY_UP_TO_DATE = 'upToDateCategory';
+    public const FORBIDDEN = 'forbidden';
 
 
 }

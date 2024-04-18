@@ -22,6 +22,7 @@ class RexServiceProvider extends ServiceProvider
         'rex_numberAlpha' => 'AlphaNumber',
         'rex_text' => 'Text',
         'rex_version' => 'Version',
+        'rex_id_products' => 'IdProducts',
     ];
     public function boot(): void
     {
