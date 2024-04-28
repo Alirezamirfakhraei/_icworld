@@ -12,6 +12,7 @@ class Product extends Model
     public const COL_DK_PART_NUMBER = 'dk_part_number';
     public const COL_MFR_PART_NUMBER = 'mfr_part_number';
     public const COL_ICE_PART_NUMBER = 'ice_part_number';
+
     public const COL_MFR = 'mfr';
     public const COL_CATEGORY = 'categoryID';
     public const COL_CATEGORY_SUB = 'categorySubID';
@@ -19,10 +20,10 @@ class Product extends Model
     public const COL_CURRENCY = 'currency';
     public const COL_DESCRIPTION = 'description';
     public const COL_PRICE = 'price';
+
     public const COL_STATUS = 'status';
     public const COL_IMAGE = 'image';
     public const COL_DATASHEET = 'dataSheet';
-
 
     public const STATUS_STOPPED = 'stopped';
     public const STATUS_AVAILABLE = 'available';
