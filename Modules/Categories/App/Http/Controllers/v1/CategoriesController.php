@@ -27,17 +27,17 @@ class CategoriesController extends Controller
                 'version' => config('general.version'),
                 'categories' => []
             ];
-
             $result = null;
             $category = Category::with('cat')->where(Category::COL_STATUS, Category::STATUS_ACTIVE)->get()->toArray();
             if ($category != null) {
                 foreach ($category as $item) {
                     $catArray = [];
-                    foreach ($item['cat'] as $catItem) {
+                        foreach ($item['cat'] as $catItem) {
                         $categoryBranch = CategoryBranch::query()->where(CategoryBranch::COL_SUB_ID, $catItem['id'])->where(CategoryBranch::COL_STATUS, CategoryBranch::STATUS_ACTIVE)->get()->toArray();
                         if ($categoryBranch != null) {
                             $subCatArray = [];
                             foreach ($categoryBranch as $subCatItem) {
+
                                 $subCatArray[] = [
                                     'title' => $subCatItem['title'],
                                     'link' => $subCatItem['link'],

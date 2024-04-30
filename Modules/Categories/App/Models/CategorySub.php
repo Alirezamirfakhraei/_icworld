@@ -30,8 +30,5 @@ class CategorySub extends Model
         self::COL_STATUS,
     ];
 
-    public function subCat()
-    {
-        return $this->hasMany(CategoryBranch::class , 'subCatID' , 'id');
-    }
+
 }

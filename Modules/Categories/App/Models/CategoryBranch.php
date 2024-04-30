@@ -28,4 +28,5 @@ class CategoryBranch extends Model
         self::COL_URL,
         self::COL_STATUS,
     ];
+
 }

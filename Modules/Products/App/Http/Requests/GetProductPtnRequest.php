@@ -3,11 +3,9 @@
 namespace Modules\Products\App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
-use Modules\ContactUs\App\Models\ContactUs;
 use Modules\Products\App\Models\Product;
 
-class SearchProductsRequest extends FormRequest
+class GetProductPtnRequest extends FormRequest
 {
     public function rules(): array
     {
@@ -16,6 +14,4 @@ class SearchProductsRequest extends FormRequest
             Product::COL_ICE_PART_NUMBER => 'required|string|min:1|max:10',
         ];
     }
-
 }
-

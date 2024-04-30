@@ -3,17 +3,15 @@
 namespace Modules\Products\App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Categories\App\Models\CategoryBranch;
 use Modules\Categories\App\Models\CategorySub;
+use Modules\Products\App\Http\Requests\GetProductPtnRequest;
 use Modules\Products\App\Http\Requests\GetProductsRequest;
-use Modules\Products\App\Http\Requests\SearchProductsRequest;
 use Modules\Products\App\Models\Product;
 use Responses;
-use function Symfony\Component\VarDumper\Dumper\esc;
 
 class ProductsController extends Controller
 {
@@ -32,16 +30,16 @@ class ProductsController extends Controller
         $category = CategoryBranch::where(CategoryBranch::COL_LINK, $categoryParam)
             ->where(CategoryBranch::COL_STATUS, CategoryBranch::STATUS_ACTIVE)
             ->first();
-
         if (empty($category)) {
             $category = CategorySub::where(CategorySub::COL_LINK, $categoryParam)
                 ->where(CategorySub::COL_STATUS, CategorySub::STATUS_ACTIVE)
                 ->first();
-
             if (!$category) {
                 return response()->json(['mode' => Responses::PRODUCTS_EMPTY]);
             }
         }
+        $cat = $category[CategorySub::COL_TITLE];
+
 
         $minMaxPricesQuery = Product::where(function ($query) use ($category) {
             $query->where(Product::COL_CATEGORY_SUB, $category['id'])
@@ -92,19 +90,30 @@ class ProductsController extends Controller
                 }
             }
         }
+
         $products = $productsQuery->paginate($perPage, ['*'], 'page', $page);
         if ($products->isEmpty()) {
             return response()->json(['mode' => Responses::PRODUCTS_EMPTY]);
         }
 
-        $manufactures = Product::select(Product::COL_MFR)
+        $res = null;
+        $manufactures = Product::with('manufacture')
             ->where($category instanceof CategorySub ? Product::COL_CATEGORY_SUB : Product::COL_CATEGORY_BRANCH, $category->id)
-            ->groupBy(Product::COL_MFR)
-            ->pluck(Product::COL_MFR)
-            ->unique();
+            ->get()->toArray();
+        if ($manufactures != null) {
+            foreach ($manufactures as $manufacture) {
+                if ($manufacture['manufacture'] != null){
+                    $res[] = [
+                        'id' => $manufacture['manufacture']['id'],
+                        'mfr' => $manufacture['manufacture']['mfr'],
+                    ];
+                }
+            }
+        }
 
         if ($isFilter) {
             $result = [
+                'cat' => $cat,
                 'data' => [
                     'total' => $totalCount,
                     'filter' => $products->total(),
@@ -122,10 +131,11 @@ class ProductsController extends Controller
                         Product::COL_IMAGE => $product->getAttribute(Product::COL_IMAGE),
                     ];
                 }),
-                'mfr' => $manufactures,
+                'mfr' => $res
             ];
         } else {
             $result = [
+                'cat' => $cat,
                 'data' => [
                     'total' => $totalCount,
                     'price' => [$minPrice, $maxPrice],
@@ -142,9 +152,33 @@ class ProductsController extends Controller
                         Product::COL_IMAGE => $product->getAttribute(Product::COL_IMAGE),
                     ];
                 }),
-                'mfr' => $manufactures,
+                'mfr' => $res
             ];
         }
+
+        return response()->json(['mode' => Responses::OK, 'result' => $result]);
+    }
+
+    public function getProductWithPtn(GetProductPtnRequest $request)
+    {
+
+
+    }
+
+    public function updateCount(Request $request)
+    {
+        $result = null;
+        $productsQuery = Product::query()->with(['branch', 'sub'])->get()->toArray();
+
+        foreach ($productsQuery as $product) {
+            $result[] = [
+                'categorySubID' => $product['sub']['id'],
+                'categorySub' => $product['sub']['title'],
+                'categoryBranchID' => $product['branch']['id'],
+                'categoryBranch' => $product['branch']['title'],
+            ];
+        }
+
 
         return response()->json(['mode' => Responses::OK, 'result' => $result]);
     }

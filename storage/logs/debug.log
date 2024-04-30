@@ -1,4 +1,0 @@
-[2024-04-29 09:38:27] local.DEBUG: [IP=192.168.1.21] Generated SQL query: select * from `products` where `categorySubID` = ? and `price` between ? and ? | sfsdfsdf
-                      Request is [API] GET /api/v1/products/anti-static-esd-bags-materials?ic=MToyNQ&price=500,1100  
-[2024-04-29 09:41:06] local.DEBUG: [IP=192.168.1.21] Generated SQL query: select * from `products` where `categorySubID` = ? and `price` between ? and ? | sfsdfsdf
-                      Request is [API] GET /api/v1/products/anti-static-esd-bags-materials?ic=MToyNQ&price=500,1100  

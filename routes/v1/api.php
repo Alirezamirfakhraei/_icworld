@@ -14,6 +14,7 @@ Route::middleware(['throttle:30,1'])->prefix('v1')->group(function () {
     // ----------> Products
     Route::controller(ProductsController::class)->group(function () {
         Route::get('product/{id}', 'getAllProducts');
+        Route::get('product/ptn', 'getProductWithPtn');
     });
 
     // ----------> Categories

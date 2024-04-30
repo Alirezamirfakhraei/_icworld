@@ -1,0 +1,4 @@
+[2024-04-30 11:36:20] local.ERROR: [IP=192.168.1.18] Exception [Error] Call to undefined relationship [manufacture] on model [Modules\Products\App\Models\Product]. | App\Exceptions\Handler -> line:67
+                      Request is [API] GET /api/v1/product/anti-static-esd-bags-materials?ic=MToyNQ&price=170,1000  
+[2024-04-30 11:36:20] local.ERROR: [IP=192.168.1.18] Exception [Error] Call to undefined relationship [manufacture] on model [Modules\Products\App\Models\Product]. | App\Exceptions\Handler -> line:67
+                      Request is [API] GET /api/v1/product/anti-static-esd-bags-materials?ic=MToyNQ&price=170,1000  

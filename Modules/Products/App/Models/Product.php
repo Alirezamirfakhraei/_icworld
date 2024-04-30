@@ -4,6 +4,8 @@ namespace Modules\Products\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Categories\App\Models\CategoryBranch;
+use Modules\Categories\App\Models\CategorySub;
 
 class Product extends Model
 {
@@ -45,5 +47,18 @@ class Product extends Model
     self::COL_IMAGE,
     self::COL_DATASHEET,
     ];
+
+    public function manufacture()
+    {
+        return $this->hasOne(Manufacture::class, 'mfr' , 'mfr');
+    }
+    public function sub(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(CategorySub::class,'id' , self::COL_CATEGORY_SUB);
+    }
+    public function branch(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(CategoryBranch::class,'id' , self::COL_CATEGORY_SUB);
+    }
 
 }
