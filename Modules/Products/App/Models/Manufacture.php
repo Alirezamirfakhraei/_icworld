@@ -10,6 +10,7 @@ class Manufacture extends Model
 {
     use HasFactory;
 
+
     protected $table = 'manufactures';
     public const COL_MFR = 'mfr';
     public const COL_STATUS = 'status';

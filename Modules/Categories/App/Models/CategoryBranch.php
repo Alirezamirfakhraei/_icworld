@@ -29,4 +29,9 @@ class CategoryBranch extends Model
         self::COL_STATUS,
     ];
 
+    public function subcategories(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CategorySub::class, 'id', 'subCatID');
+    }
+
 }

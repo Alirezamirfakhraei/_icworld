@@ -10,8 +10,9 @@ class GetProductPtnRequest extends FormRequest
     public function rules(): array
     {
         return [
-            Product::COL_DK_PART_NUMBER => 'required|string|min:1|max:10',
-            Product::COL_ICE_PART_NUMBER => 'required|string|min:1|max:10',
+            Product::REQ_MFR_PART_NUMBER => 'nullable|string|min:1|max:100|rex_english_na',
+            Product::REQ_ICE_PART_NUMBER => 'nullable|string|min:1|max:100|rex_id_products',
+            Product::REQ_DEC_IC => 'nullable|string|rex_english_na',
         ];
     }
 }

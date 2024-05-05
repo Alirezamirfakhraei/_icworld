@@ -29,6 +29,4 @@ class CategorySub extends Model
         self::COL_URL,
         self::COL_STATUS,
     ];
-
-
 }

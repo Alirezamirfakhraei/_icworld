@@ -27,6 +27,10 @@ class Product extends Model
     public const COL_IMAGE = 'image';
     public const COL_DATASHEET = 'dataSheet';
 
+    public const REQ_MFR_PART_NUMBER = 'ptnMfr';
+    public const REQ_ICE_PART_NUMBER = 'ptnIce';
+    public const REQ_DEC_IC = 'ic';
+
     public const STATUS_STOPPED = 'stopped';
     public const STATUS_AVAILABLE = 'available';
     public const  STATUS_UNAVAILABLE = 'unAvailable';
@@ -50,7 +54,7 @@ class Product extends Model
 
     public function manufacture()
     {
-        return $this->hasOne(Manufacture::class, 'mfr' , 'mfr');
+        return $this->hasOne(Manufacture::class , 'mfr' , 'mfr');
     }
     public function sub(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
