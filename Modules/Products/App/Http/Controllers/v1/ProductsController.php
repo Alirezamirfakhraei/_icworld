@@ -170,11 +170,11 @@ class ProductsController extends Controller
         if (!$validPerPage) {
             return response()->json(['mode' => Responses::FORBIDDEN]);
         }
-
         $products = self::getProductsByPartNumber($request, $perPage, $page);
         if ($products->isEmpty()) {
             return response()->json(['mode' => Responses::PRODUCTS_EMPTY]);
         }
+
         $array = null;
         foreach ($products as $product) {
             $array[] = [
@@ -193,10 +193,10 @@ class ProductsController extends Controller
 
     public static function getProductsByPartNumber($request, $perPage, $page): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
+        $searchWord = $request->input(Product::REQ_SEARCH_KEY);
         $productsQuery = Product::query()
-            ->where(Product::COL_MFR_PART_NUMBER, $request->input(Product::REQ_MFR_PART_NUMBER))
-            ->orWhere(Product::COL_ICE_PART_NUMBER, $request->input(Product::REQ_ICE_PART_NUMBER));
-
+            ->where(Product::COL_MFR_PART_NUMBER, 'LIKE', "%$searchWord%")
+            ->orWhere(Product::COL_ICE_PART_NUMBER, 'LIKE', "%$searchWord%");
         return $productsQuery->paginate($perPage, ['*'], 'page', $page);
     }
 

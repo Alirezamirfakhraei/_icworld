@@ -27,8 +27,7 @@ class Product extends Model
     public const COL_IMAGE = 'image';
     public const COL_DATASHEET = 'dataSheet';
 
-    public const REQ_MFR_PART_NUMBER = 'ptnMfr';
-    public const REQ_ICE_PART_NUMBER = 'ptnIce';
+    public const REQ_SEARCH_KEY = 'searchKey';
     public const REQ_DEC_IC = 'ic';
 
     public const STATUS_STOPPED = 'stopped';
