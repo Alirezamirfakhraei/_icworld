@@ -5,9 +5,11 @@ namespace Modules\Products\App\Http\Controllers\v1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Modules\Categories\App\Models\Category;
 use Modules\Categories\App\Models\CategoryBranch;
 use Modules\Categories\App\Models\CategorySub;
 use Modules\Products\App\Http\Requests\GetProductPtnRequest;
+use Modules\Products\App\Http\Requests\GetProductRequest;
 use Modules\Products\App\Http\Requests\GetProductsRequest;
 use Modules\Products\App\Models\Manufacture;
 use Modules\Products\App\Models\Product;
@@ -103,7 +105,7 @@ class ProductsController extends Controller
             }
         }
 
-        if ($isValid){
+        if ($isValid) {
             $result = [
                 'cat' => [
                     'title' => 'test',
@@ -130,7 +132,7 @@ class ProductsController extends Controller
                 }),
                 'mfr' => $res
             ];
-        }else{
+        } else {
             $result = [
                 'cat' => [
                     'title' => 'test',
@@ -159,6 +161,52 @@ class ProductsController extends Controller
         }
 
         return response()->json(['mode' => Responses::OK, 'result' => $result]);
+    }
+
+    public function getProduct(GetProductRequest $request): JsonResponse
+    {
+        $findProduct = Product::query()->where(Product::COL_ICE_PART_NUMBER, $request[Product::REQ_DEC_IC])->first();
+        if ($findProduct != null) {
+            $findCatBranch = CategoryBranch::query()->where('id', $findProduct['categoryBranchID'])->first();
+            if ($findCatBranch != null) {
+                $findSubCat = CategorySub::query()->where('id', $findCatBranch['subCatID'])->first();
+                if ($findSubCat != null) {
+                    $findCat = Category::query()->where('id', $findSubCat['catID'])->first();
+                    if ($findCat != null) {
+                        $findMfr = Manufacture::query()->where(Manufacture::COL_MFR, $findProduct['mfr'])->first();
+                        if ($findMfr) {
+                            $result = [
+                                'category' => $findCat[Category::COL_TITLE],
+                                'categorySub' => $findSubCat[categorySub::COL_TITLE],
+                                'categoryBranch' => $findCatBranch[categoryBranch::COL_TITLE],
+                                'cat_logo' => $findProduct[Product::COL_IMAGE],
+                                'mfr_logo' => $findProduct[Product::COL_IMAGE],
+                                'mfr' => $findMfr[Manufacture::COL_MFR],
+                                'mfr_pn' => $findProduct[Product::COL_MFR_PART_NUMBER],
+                                'ice_pn' => $findProduct[Product::COL_ICE_PART_NUMBER],
+                                'price' => $findProduct[Product::COL_PRICE],
+                                'currency' => $findProduct[Product::COL_CURRENCY],
+                                'status' => $findProduct[Product::COL_STATUS],
+                                'datasheet' => $findProduct[Product::COL_DATASHEET],
+                                'image' => $findProduct[Product::COL_IMAGE],
+                                'description' => $findProduct[Product::COL_DESCRIPTION],
+                            ];
+                            return response()->json(['mode' => Responses::OK, 'result' => $result]);
+                        } else {
+                            return response()->json(['mode' => Responses::PRODUCTS_EMPTY]);
+                        }
+                    } else {
+                        return response()->json(['mode' => Responses::PRODUCTS_EMPTY]);
+                    }
+                } else {
+                    return response()->json(['mode' => Responses::PRODUCTS_EMPTY]);
+                }
+            } else {
+                return response()->json(['mode' => Responses::PRODUCTS_EMPTY]);
+            }
+        }else {
+            return response()->json(['mode' => Responses::PRODUCTS_EMPTY]);
+        }
     }
 
     public function getProductWithPtn(GetProductPtnRequest $request): JsonResponse
